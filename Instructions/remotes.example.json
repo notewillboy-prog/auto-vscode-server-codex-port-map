@@ -1,0 +1,16 @@
+{
+  "remotes": [
+    {
+      "ssh_command": "ssh -p 2222 root@gpu-a.example.com",
+      "alias": "example-gpu-codex-test-2222",
+      "password_env": "EXAMPLE_GPU_PASSWORD",
+      "remote_path": "/root"
+    },
+    {
+      "ssh_command": "ssh ubuntu@gpu.example.com",
+      "alias": "gpu-example",
+      "password_env": "GPU_EXAMPLE_PASSWORD",
+      "remote_path": "/home/ubuntu"
+    }
+  ]
+}
