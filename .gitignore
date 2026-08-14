@@ -1,3 +1,7 @@
+# Local backups and machine-specific launchers are not release artifacts.
+Scripts/备份/
+
+# Python runtime artifacts.
 __pycache__/
 *.py[cod]
 .venv/

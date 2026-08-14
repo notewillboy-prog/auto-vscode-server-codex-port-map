@@ -10,6 +10,9 @@
 - [本地测试](Instructions/test_vscode_remote_codex_proxy.py)
 - [功能更新说明](Instructions/FEATURE_UPDATE_SUMMARY.md)
 - [本轮修复与验证记录](Instructions/session_2026-07-13_remote_codex_repair.md)
+- [下次接手模型运行手册](Instructions/NEXT_AGENT_RUNBOOK.md)
+- [远程 Codex 使用本机 CC Switch](Instructions/CC_SWITCH_REMOTE_CODEX.md)
+- [更新记录](CHANGELOG.md)
 
 ## 所有远程接入 VSCode
 
@@ -86,4 +89,27 @@ python .\Instructions\vscode_remote_codex_proxy.py `
 
 ```powershell
 --no-vscode --no-open-browser --exit-after-setup
+```
+
+## CC Switch 模式
+
+如果本机使用 CC Switch 管理 Codex 供应商，可以把 CC Switch 的本地 Codex
+路由通过 SSH 反向转发给远程服务器。远程只配置回环 Base URL 和非敏感占位
+认证值，真实上游 API Key 继续保留在本机 CC Switch 中。
+
+完整安装、配置、安全边界和验证步骤见：
+[Instructions/CC_SWITCH_REMOTE_CODEX.md](Instructions/CC_SWITCH_REMOTE_CODEX.md)。
+
+该流程覆盖服务器重启后的恢复、VS Code 抢占本机端口导致的 Windows
+`10048`、克隆服务器复用 Codex、多服务器并行保活，以及 `/v1/models`、
+`codex doctor`、真实 Responses 请求三层验收。固定启动顺序为：
+CC Switch → SSH 保活 → VS Code Remote-SSH。
+
+通用保活入口：
+
+```powershell
+.\Scripts\start_codex_reverse_proxy_keepalive.cmd `
+  -Alias <SSH_ALIAS> `
+  -LocalPort <LOCAL_CC_SWITCH_PORT> `
+  -RemotePort <REMOTE_ROUTE_PORT>
 ```
